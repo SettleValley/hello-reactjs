@@ -5,10 +5,14 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon --exec babel-node src/server",
-    "create": "webpack"
+    "build": "webpack"
   },
   "dependencies": {
     "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "html-minifier": "^3.5.21",
+    "passport": "^0.4.0",
+    "passport-instagram": "^1.0.0",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
