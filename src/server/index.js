@@ -10,8 +10,11 @@ import hbs from 'express-handlebars';
 import * as hbsHelpers from '../lib/handlebars';
 
 // passport package
-import passport from 'passport';
+import pass from 'passport';
+import session from 'express-session';
+import passport from '../config/passport';
 
+import {instagram} from '../config/strategy';
 // webpack configuration
 import webpackConfig from '../../webpack.config';
 
@@ -38,11 +41,14 @@ app.engine('hbs',hbs({
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'hbs');
 
+app.use(session({
+  secret: 'sytr456-65tyrd-12wrt',
+  resave: true, 
+  saveUninitialized: true
+}))
 //passport init
-app.use(passport.initialize());
-app.use(passport.session());
-
-
+passport(app);
+instagram();
 //webpack compiler
 const webpackCompiler = webpack(webpackConfig)
 
@@ -58,11 +64,22 @@ app.use((req, res, next)=>{
 });
 // Sending all trafic route
 app.get('*', (req, res)=>{
+  console.log(req.user);
   res.render('frontend/index', {
     layout: false
   });
 });
 
+app.get('/instagram', pass.authenticate('instagram'));
+
+app.get('/instagram/callback', pass.authenticate('instagram', {
+  successRedirect: '/users',
+  failure: '/error'
+}))
+
+app.get('/', (req, res) => {
+  res.send(req.user)
+})
 //listen port
 app.listen(port, err=>{
   if (!err) {

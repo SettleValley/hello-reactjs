@@ -86,3 +86,5 @@ yarn-error.log*
 #webpack build
 dist
 
+#Note
+note.md
