@@ -63,14 +63,6 @@ app.get('*', (req, res)=>{
   });
 });
 
-
-app.get('*', 
-  passport.authenticate('instagram', { failureRedirect: '/login' }),
-  function(req, res) {
-    console.log("holaaa");
-    res.redirect('/');
-  });
-
 //listen port
 app.listen(port, err=>{
   if (!err) {
